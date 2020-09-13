@@ -45,6 +45,7 @@ def dumpfile(f):
             sys.stdout.flush();
     sys.stdout.write("\n");
 
+
 if len(sys.argv)==1:
     print("Usage: %s foo.bndb"%sys.argv[0]);
 else:
