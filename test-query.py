@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from binaryninja import *
 
 from Symgrate2 import Symgrate2
