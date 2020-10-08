@@ -34,17 +34,32 @@ def dumpfile(f):
     # different architectures.  arm7/thumb2, for example.
     print("Loaded %s for architecture %s."%(f, bv.arch));
     
-    ## Print the recovered name of each function.
+    # ## Print the recovered name of each function.
+    # for f in bv.functions:
+    #     pre=functionprefix(f);
+    #     name=Symgrate2.queryfn(pre);
+    #     if name!=None:
+    #         sys.stdout.write("\n%08x %-20s" % (f.start, name));
+    #     else:
+    #         sys.stdout.write(".");
+    #         sys.stdout.flush();
+    # sys.stdout.write("\n");
+
+    count=0;
+    q="";
     for f in bv.functions:
         pre=functionprefix(f);
-        name=Symgrate2.queryfn(pre);
-        if name!=None:
-            sys.stdout.write("\n%08x %-20s" % (f.start, name));
-        else:
-            sys.stdout.write(".");
-            sys.stdout.flush();
-    sys.stdout.write("\n");
-
+        count=count+1;
+        
+        q+=("%08x=%s&"%(f.start, pre));
+        
+        if count&0x3F==0x00:
+            res=Symgrate2.queryfns(q);
+            q="";
+            if res!=None: print(res.strip());
+    res=Symgrate2.queryfns(q);
+    if res!=None: print(res.strip());
+            
 
 if len(sys.argv)==1:
     print("Usage: %s foo.bndb"%sys.argv[0]);
