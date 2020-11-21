@@ -11,8 +11,7 @@ class Symgrate2:
     def queryfn(raw):
         """Queries the server for the first bytes of ASCII armored machine language."""
 
-        #conn = httplib.HTTPConnection("symgrate.com",80)
-        conn = httplib.HTTPConnection("localhost",80)
+        conn = httplib.HTTPConnection("symgrate.com",80)
     
         conn.request("GET", "/fn?raw="+raw)
         
@@ -33,7 +32,6 @@ class Symgrate2:
         """Queries the server for the first bytes of ASCII armored machine language."""
 
         conn = httplib.HTTPConnection("symgrate.com",80)
-        #conn = httplib.HTTPConnection("localhost",80)
 
         #print(q+"\n");
         conn.request("GET", "/fns?"+q)  # FIXME, we should be taking bytes as raw instead of a string.
