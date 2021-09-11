@@ -11,7 +11,10 @@ class Symgrate2:
 
     def queryfn(raw):
         """Queries the server for the first bytes of ASCII armored machine language."""
-        return Symgrate2.queryfns("raw=%s"%raw);
+        data=Symgrate2.queryfns("raw=%s"%raw);
+        if data!=None and len(data)>2:
+            return data.split(" ")[1].strip()
+        return None;
 
     def queryfns(q):
         """Queries the server for the first bytes of ASCII armored machine language."""
