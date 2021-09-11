@@ -52,8 +52,23 @@ def parse_results(bv, j):
     count=0
     x=json.loads(j)
     for f in x:
-        log_info("Symgrate2: %s %s" % (f, x[f]["Name"]))
+        adr=int(f,16)
+        name=x[f]["Name"]
+        F=bv.get_function_at(adr)  # Binja's view of the same function.
+
+        # Print the name and log the result.
+        if F.symbol.auto: # Built-in symbol we can overwrite.
+            F.name=name # Overwrite the name.
+            log_info("Symgrate2: %s %s" % (f, name))
+        elif F.name==name:
+            # The name has already been set, so don't bother printing it in results.
+            pass;
+        else:
+            # The name disagrees.  Print both.
+            log_info("Symgrate2: %s %s!=%s" % (f, name, F.name))
         count=count+1;
+
+        # Update the name, if appropriate.
     return count;
 
 def parse_result(bv, line):
