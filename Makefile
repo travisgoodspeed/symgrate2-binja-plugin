@@ -13,6 +13,6 @@ LICENSE: plugin.json
 install:
 	ln -s `pwd` ~/.binaryninja/plugins/symgrate2-binja-plugin
 test:
-	python3 test-query.py
-	python3 test-binja.py
+	python3 test-query.py | grep fopen
+	python3 test-binja.py samples/goodmote.bndb | grep NOROM
 

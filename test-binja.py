@@ -22,7 +22,7 @@ def functionprefix(fun):
 
 
 def dumpfile(f):
-    """Import a .o file to the database."""
+    """Dumps all the symgrate-identifiable symbols in a .bndb file."""
     global bv
     bv = binaryninja.open_view(f)
 
@@ -34,17 +34,6 @@ def dumpfile(f):
     # different architectures.  arm7/thumb2, for example.
     print("Loaded %s for architecture %s."%(f, bv.arch));
     
-    # ## Print the recovered name of each function.
-    # for f in bv.functions:
-    #     pre=functionprefix(f);
-    #     name=Symgrate2.queryfn(pre);
-    #     if name!=None:
-    #         sys.stdout.write("\n%08x %-20s" % (f.start, name));
-    #     else:
-    #         sys.stdout.write(".");
-    #         sys.stdout.flush();
-    # sys.stdout.write("\n");
-
     count=0;
     q="";
     for f in bv.functions:
