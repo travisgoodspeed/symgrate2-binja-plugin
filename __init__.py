@@ -71,28 +71,6 @@ def parse_results(bv, j):
         # Update the name, if appropriate.
     return count;
 
-def parse_result(bv, line):
-    line=line.strip()
-    if line == "":
-        return 0
-    try:
-        (offset, fname) = line.split(" ", 1)
-    except:
-        log_warn("Symgrate2: Result %s not valid." % line)
-        return 0
-
-    offset = int(offset, 16)
-    f = bv.get_function_at(offset)
-    if f:
-        if f.symbol.auto: #built-in symbol we can likely overwrite
-            f.name = fname
-            log_debug("Symgrate2: Setting function name at 0x%x to %s" % (f.start, f.name))
-        else:
-            log_warn("Symgrate2: Function %s at 0x%x was already named by the user, refusing to override with Symgrate2 result: %s" % (f.name, f.start, line.strip()))
-        return 1
-    else:
-        return 0
-
 class Solver(BackgroundTaskThread):
     def __init__(self, bv):
         BackgroundTaskThread.__init__(self, "Searching Symgrate2", True)

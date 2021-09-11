@@ -17,7 +17,6 @@ def functionprefix(fun):
         h=int(B[i+1]);
         l=int(B[i]);
         raw+="%02x%02x"%(l,h);
-    #print("raw:     %s"%raw);
     return raw;
 
 def jprint(j):
