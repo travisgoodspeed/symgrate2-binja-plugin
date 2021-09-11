@@ -20,6 +20,14 @@ def functionprefix(fun):
     #print("raw:     %s"%raw);
     return raw;
 
+def jprint(j):
+    """Prints the results from JSON."""
+    # Parse the JSON.
+    x=json.loads(j)
+
+    #Print each name and record.
+    for f in x:
+        print(f, x[f]["Name"])
 
 def dumpfile(f):
     """Dumps all the symgrate-identifiable symbols in a .bndb file."""
@@ -43,11 +51,11 @@ def dumpfile(f):
         q+=("%08x=%s&"%(f.start, pre));
         
         if count&0x3F==0x00:
-            res=Symgrate2.queryfns(q);
+            res=Symgrate2.queryjfns(q);
             q="";
-            if res!=None: print(res.strip());
-    res=Symgrate2.queryfns(q);
-    if res!=None: print(res.strip());
+            if res!=None: jprint(res);
+    res=Symgrate2.queryjfns(q);
+    if res!=None: jprint(res);
             
 
 if len(sys.argv)==1:

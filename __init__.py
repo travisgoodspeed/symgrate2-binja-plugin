@@ -2,7 +2,7 @@
 
 from binaryninja import *
 
-import sys
+import sys, json
 
 from .Symgrate2 import Symgrate2
 
@@ -47,6 +47,15 @@ def allfunction_searchbg(bv):
     s = Solver(bv)
     s.start()
 
+def parse_results(bv, j):
+    """Parses a JSON bundle from the server."""
+    count=0
+    x=json.loads(j)
+    for f in x:
+        log_info("Symgrate2: %s %s" % (f, x[f]["Name"]))
+        count=count+1;
+    return count;
+
 def parse_result(bv, line):
     line=line.strip()
     if line == "":
@@ -89,18 +98,14 @@ class Solver(BackgroundTaskThread):
 
             if count&BATCHSIZE==0:
                 self.progress=("Symgrate2: Searched %d functions" %(count))
-                res=Symgrate2.queryfns(q)
+                res=Symgrate2.queryjfns(q)
                 q={}
                 if res!=None:
-                    for line in res.split("\n"):
-                        matches += parse_result(bv, line)
-                else:
-                    log_debug("Symgrate2: Failed to identify name for %s " % f.name)
+                    matches += parse_results(bv, res)
         self.progress=("Symgrate2: Searched %d functions" %(count))
-        res=Symgrate2.queryfns(q)
+        res=Symgrate2.queryjfns(q)
         if res!=None:
-            for line in res.split("\n"):
-                matches += parse_result(bv, line)
+            matches += parse_results(bv, res)
         log_info("Symgrate2: Searched %d functions and found %d matches." % (count, matches))
 
 PluginCommand.register_for_function("Symgrate2 Function Search", "Searches Symgrate2 db for the current function.", function_search)
