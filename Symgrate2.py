@@ -17,8 +17,11 @@ class Symgrate2:
         """Queries the server for the first bytes of ASCII armored machine language."""
         conn = httplib.HTTPConnection("symgrate.com",80)
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
-        #params = urllib.parse.urlencode(q)  # Breaks in Python 3.9
-        params = q
+        params=q
+        try:
+            params = urllib.parse.urlencode(q)  # Breaks in Python 3.9
+        except TypeError:
+            pass;
 
         #print(q+"\n")
         # FIXME, we should be taking bytes as raw instead of a string.
@@ -36,4 +39,4 @@ class Symgrate2:
         # TODO: This would go a little faster if we reused the socket.
         conn.close()
         return toret
-
+    
